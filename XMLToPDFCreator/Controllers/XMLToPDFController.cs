@@ -48,7 +48,7 @@ namespace XMLToPDFCreator.Controllers
             section1.AddParagraph();
             section1.AddParagraph("Customer EAN Number: " + testModel.Order.Header.Receiver ?? "|Receiver Missing|" + " - " + testModel.Order.Header.MessageHeader.SupplierDetails.VendorName ?? "|VendorName Missing|");
             section1.AddParagraph();
-            string str1 = testModel.Order.Header.MessageHeader.Narratives.Narrative.NarrativeText;
+            string str1 = testModel.Order.Header.MessageHeader.Narratives.Narrative.NarrativeText ?? "";
             Section section2 = section1;
             string[] strArray = new string[10];
             strArray[0] = "Order Date: ";
@@ -197,25 +197,25 @@ namespace XMLToPDFCreator.Controllers
                 row1.HeightRule = RowHeightRule.AtLeast;
                 row1.Height = (Unit)20;
                 row1.Format.Font.Size = (Unit)8;
-                row1.Cells[0].AddParagraph(ol.LineCounter.ToString());
+                row1.Cells[0].AddParagraph(ol.LineCounter.ToString() ?? "");
                 row1.Cells[0].Format.Alignment = ParagraphAlignment.Center;
                 row1.Cells[0].VerticalAlignment = VerticalAlignment.Center;
-                row1.Cells[1].AddParagraph(ol.ProductDetails.SupplierProductCode);
+                row1.Cells[1].AddParagraph(ol.ProductDetails.SupplierProductCode ?? "");
                 row1.Cells[1].VerticalAlignment = VerticalAlignment.Center;
-                row1.Cells[2].AddParagraph(ol.ProductDetails.ConsumerUnitEan);
+                row1.Cells[2].AddParagraph(ol.ProductDetails.ConsumerUnitEan ?? "");
                 row1.Cells[2].VerticalAlignment = VerticalAlignment.Center;
                 row1.Cells[3].AddParagraph(ol.ProductDetails.SupplierProductDescription ?? "|Supplier Product Description Missing|");
                 row1.Cells[3].Format.Font.Size = (Unit)7;
                 row1.Cells[3].VerticalAlignment = VerticalAlignment.Center;
                 row1.Cells[4].AddParagraph(ol.QuantityDetails.UnitOfMeasure ?? "");
                 row1.Cells[4].VerticalAlignment = VerticalAlignment.Center;
-                row1.Cells[5].AddParagraph(ol.QuantityDetails.NumberOfOrderUnits);
+                row1.Cells[5].AddParagraph(ol.QuantityDetails.NumberOfOrderUnits ?? "");
                 row1.Cells[5].Format.Alignment = ParagraphAlignment.Center;
                 row1.Cells[5].VerticalAlignment = VerticalAlignment.Center;
-                row1.Cells[6].AddParagraph(ol.CostDetails.CostPriceExcludingVat);
+                row1.Cells[6].AddParagraph(ol.CostDetails.CostPriceExcludingVat ?? "");
                 row1.Cells[6].Format.Alignment = ParagraphAlignment.Right;
                 row1.Cells[6].VerticalAlignment = VerticalAlignment.Center;
-                row1.Cells[7].AddParagraph(ol.LineCostExcludingVat);
+                row1.Cells[7].AddParagraph(ol.LineCostExcludingVat ?? "");
                 row1.Cells[7].Format.Alignment = ParagraphAlignment.Right;
                 row1.Cells[7].VerticalAlignment = VerticalAlignment.Center;
 
@@ -224,11 +224,11 @@ namespace XMLToPDFCreator.Controllers
             PdfDocumentRenderer documentRenderer = new PdfDocumentRenderer(false);
             documentRenderer.Document = document;
             documentRenderer.RenderDocument();
-            string str6 = testModel.Order.Header.MessageHeader.SupplierDetails.VendorName;
-            string str7 = testModel.Order.Header.MessageHeader.CustomerLocation.CustomerDeliveryPointName;
+            string str6 = testModel.Order.Header.MessageHeader.SupplierDetails.VendorName ?? "";
+            string str7 = testModel.Order.Header.MessageHeader.CustomerLocation.CustomerDeliveryPointName ?? "";
             string str8 = testModel.Order.Header.Receiver;
             string str9 = testModel.Order.Header.Sender;
-            string str10 = testModel.Order.Header.MessageHeader.CustomerLocation.CustomerDeliveryPoint;
+            string str10 = testModel.Order.Header.MessageHeader.CustomerLocation.CustomerDeliveryPoint ?? "";
             string str11 = testModel.Order.Header.MessageHeader.OrderDetails.CustomerOrderNumber + "-" + str6 + "-" + str7 + ".pdf";
             string base64String;
             using (MemoryStream memoryStream = new MemoryStream())

@@ -60,8 +60,8 @@ public class MessageHeader
     [XmlElement(ElementName = "OrderDetails")]
     public OrderDetails OrderDetails { get; set; }
 
-    [XmlElement(ElementName = "Narratives")]
-    public Narratives Narratives { get; set; }
+    //[XmlElement(ElementName = "Narratives")]
+    //public Narratives Narratives { get; set; }
 
     [XmlElement(ElementName = "DeliveryInstructions")]
     public DeliveryInstructions DeliveryInstructions { get; set; }
@@ -132,22 +132,22 @@ public class OrderDetailsTransactionCode
     public string TransactionCode { get; set; }
 }
 
-[XmlRoot(ElementName = "Narratives")]
-public class Narratives
-{
-    [XmlElement(ElementName = "Narrative")]
-    public Narrative Narrative { get; set; }
-}
+//[XmlRoot(ElementName = "Narratives")]
+//public class Narratives
+//{
+//    [XmlElement(ElementName = "Narrative")]
+//    public Narrative Narrative { get; set; }
+//}
 
-[XmlRoot(ElementName = "ElementName")]
-public class Narrative
-{
-    [XmlElement(ElementName = "NarrativeCounter")]
-    public string NarrativeCounter { get; set; }
+//[XmlRoot(ElementName = "ElementName")]
+//public class Narrative
+//{
+//    [XmlElement(ElementName = "NarrativeCounter")]
+//    public string NarrativeCounter { get; set; }
 
-    [XmlElement(ElementName = "NarrativeText")]
-    public string NarrativeText { get; set; }
-}
+//    [XmlElement(ElementName = "NarrativeText")]
+//    public string NarrativeText { get; set; }
+//}
 
 [XmlRoot(ElementName = "DeliveryInstructions")]
 public class DeliveryInstructions

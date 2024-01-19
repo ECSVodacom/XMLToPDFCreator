@@ -14,33 +14,31 @@ using MigraDoc.DocumentObjectModel.Tables;
 using MigraDoc.Rendering;
 using System.Text;
 using XMLToPDFCreator.Models;
+using Microsoft.Extensions.Configuration;
 
 namespace XMLToPDFCreator.Controllers
 {
+    
+    [Route("api/[controller]")]
     [ApiController]
-    [Route("[controller]")]
     public class XMLToPDFController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
-
         private readonly ILogger<XMLToPDFController> _logger;
+        private readonly IConfiguration _configuration;
 
-        public XMLToPDFController(ILogger<XMLToPDFController> logger)
+        public XMLToPDFController(ILogger<XMLToPDFController> logger, IConfiguration configuration)
         {
             _logger = logger;
+            _configuration = configuration;
         }
 
-        [HttpPost]
+        [HttpPost(Name = "XMLToPDF")]
         [Consumes("application/xml")]
-        [Produces("application/xml")]
         public ActionResult Post(Orders testModel)
         {
             Document document = new Document();
             document.DefaultPageSetup.Orientation = Orientation.Landscape;
-            MigraDoc.DocumentObjectModel.Section section1 = document.AddSection();
+            Section section1 = document.AddSection();
             section1.AddParagraph("Customer Purchase Order Copy Generated from EDI interface");
             section1.AddParagraph();
             section1.AddParagraph();
@@ -48,7 +46,7 @@ namespace XMLToPDFCreator.Controllers
             section1.AddParagraph();
             section1.AddParagraph("Customer EAN Number: " + testModel.Order.Header.Receiver ?? "|Receiver Missing|" + " - " + testModel.Order.Header.MessageHeader.SupplierDetails.VendorName ?? "|VendorName Missing|");
             section1.AddParagraph();
-            string str1 = testModel.Order.Header.MessageHeader.Narratives.Narrative.NarrativeText ?? "";
+            //string str1 = testModel.Order.Header.MessageHeader.Narratives.Narrative.NarrativeText ?? "";
             Section section2 = section1;
             string[] strArray = new string[10];
             strArray[0] = "Order Date: ";
@@ -158,7 +156,7 @@ namespace XMLToPDFCreator.Controllers
                 str4 = "|EarliestDeliveryDate Missing|";
             strArray[7] = str4;
             strArray[8] = "\r\n";
-            strArray[9] = !string.IsNullOrEmpty(str1) ? "Special Instruction: " + str1 : "";
+            //strArray[9] = !string.IsNullOrEmpty(str1) ? "Special Instruction: " + str1 : "";
             string paragraphText1 = string.Concat(strArray);
             section2.AddParagraph(paragraphText1);
             section1.AddParagraph();
@@ -221,6 +219,13 @@ namespace XMLToPDFCreator.Controllers
 
             }
 
+            string ordNo = testModel.Order.Header.MessageHeader.OrderDetails.CustomerOrderNumber ?? "";
+            int indexCharLength = 1;
+            char indexChar = '#';
+            int substringStartIndex = ordNo.IndexOf(indexChar) + indexCharLength;
+            int length = ordNo.Length - substringStartIndex;
+            string orderNumber = ordNo.Substring(substringStartIndex, length);
+            
             PdfDocumentRenderer documentRenderer = new PdfDocumentRenderer(false);
             documentRenderer.Document = document;
             documentRenderer.RenderDocument();
@@ -229,15 +234,23 @@ namespace XMLToPDFCreator.Controllers
             string str8 = testModel.Order.Header.Receiver;
             string str9 = testModel.Order.Header.Sender;
             string str10 = testModel.Order.Header.MessageHeader.CustomerLocation.CustomerDeliveryPoint ?? "";
-            string str11 = testModel.Order.Header.MessageHeader.OrderDetails.CustomerOrderNumber + "-" + str6 + "-" + str7 + ".pdf";
+            DateTime date = DateTime.Now;
+            string formattedDate = date.ToString("yyyyMMdd");
+            string str11 = orderNumber + "-" + formattedDate + "." + str9 + "." + str8 + ".pdf";
             string base64String;
             using (MemoryStream memoryStream = new MemoryStream())
             {
                 documentRenderer.PdfDocument.Save((Stream)memoryStream);
                 base64String = Convert.ToBase64String(memoryStream.GetBuffer(), 0, (int)memoryStream.Length);
             }
+
+            var bizLinkEndPoint = _configuration.GetValue<string>("Settings:BizLinkEndPoint");
+
+
+            string ordernumber = testModel.Order.Header.MessageHeader.OrderDetails.CustomerOrderNumber;
+
             byte[] buffer = Convert.FromBase64String(base64String);
-            HttpWebRequest httpWebRequest = WebRequest.Create(new Uri("http://192.168.202.31:9080/msgsrv/http?from=" + str9 + "&filename=MTO-" + str11 + "&to=99999999999")) as HttpWebRequest;
+            HttpWebRequest httpWebRequest = WebRequest.Create(new Uri(bizLinkEndPoint +"?from=" + str9 + "&to" + str8 + "&filename=ORDER-" + str11 + "&to="+str8)) as HttpWebRequest;
             httpWebRequest.ContentType = "application/pdf";
             httpWebRequest.Method = "POST";
             httpWebRequest.ContentLength = (long)buffer.Length;

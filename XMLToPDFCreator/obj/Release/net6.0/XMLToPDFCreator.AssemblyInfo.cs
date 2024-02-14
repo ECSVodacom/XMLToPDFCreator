@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("XMLToPDFCreator")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+84563ecf54151036b48e169bf91bcc02e3db2cf0")]
 [assembly: System.Reflection.AssemblyProductAttribute("XMLToPDFCreator")]
 [assembly: System.Reflection.AssemblyTitleAttribute("XMLToPDFCreator")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

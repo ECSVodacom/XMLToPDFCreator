@@ -39,12 +39,34 @@ namespace XMLToPDFCreator.Controllers
             Document document = new Document();
             document.DefaultPageSetup.Orientation = Orientation.Landscape;
             Section section1 = document.AddSection();
-            section1.AddParagraph("Customer Purchase Order Copy Generated from EDI interface");
+
+            var receiver = testModel.Order.Header.Receiver.ToString();
+
+            if (receiver.Contains("CANCELLED"))
+            {
+                section1.AddParagraph("Cancelled Purchase Order Copy Generated from EDI interface");
+            }
+            else {
+                section1.AddParagraph("Customer Purchase Order Copy Generated from EDI interface");
+            }
+
+            
             section1.AddParagraph();
             section1.AddParagraph();
             section1.AddParagraph("Customer Name: " + testModel.Order.Header.MessageHeader.CustomerLocation.CustomerDeliveryPointName ?? "|CustomerDeliveryPoint Missing|" + " - " + testModel.Order.Header.MessageHeader.CustomerLocation.CustomerDeliveryPoint ?? "|CustomerDeliveryPointName Missing|");
             section1.AddParagraph();
-            section1.AddParagraph("Customer EAN Number: " + testModel.Order.Header.Receiver ?? "|Receiver Missing|" + " - " + testModel.Order.Header.MessageHeader.SupplierDetails.VendorName ?? "|VendorName Missing|");
+
+            if (receiver.Contains("SBPOLY") || receiver.Contains("CANCELLED")) {
+                section1.AddParagraph("Customer EAN Number: " + testModel.Order.Header.MessageHeader.SupplierDetails.SupplierOrderPoint ?? "|Receiver Missing|" + " - " + testModel.Order.Header.MessageHeader.SupplierDetails.VendorName ?? "|VendorName Missing|");
+
+            }
+            else {
+                section1.AddParagraph("Customer EAN Number: " + testModel.Order.Header.Receiver ?? "|Receiver Missing|" + " - " + testModel.Order.Header.MessageHeader.SupplierDetails.VendorName ?? "|VendorName Missing|");
+
+            };
+
+            
+
             section1.AddParagraph();
             //string str1 = testModel.Order.Header.MessageHeader.Narratives.Narrative.NarrativeText ?? "";
             Section section2 = section1;
@@ -249,8 +271,23 @@ namespace XMLToPDFCreator.Controllers
 
             string ordernumber = testModel.Order.Header.MessageHeader.OrderDetails.CustomerOrderNumber;
 
+            string orderType = "";
+            if (receiver.Contains("CANCELLED"))
+            {
+                orderType = "Cancelled";
+                str8 = testModel.Order.Header.MessageHeader.SupplierDetails.SupplierOrderPoint;
+            }
+            else if (receiver.Contains("POLY"))
+            {
+                orderType = "MTO";
+                str8 = testModel.Order.Header.MessageHeader.SupplierDetails.SupplierOrderPoint;
+            }
+            else {
+                orderType = "Order";
+            }
+
             byte[] buffer = Convert.FromBase64String(base64String);
-            HttpWebRequest httpWebRequest = WebRequest.Create(new Uri(bizLinkEndPoint +"?from=" + str9 + "&to" + str8 + "&filename=ORDER-" + str11 + "&to="+str8)) as HttpWebRequest;
+            HttpWebRequest httpWebRequest = WebRequest.Create(new Uri(bizLinkEndPoint +"?from=" + str9 + "&to" + str8 + "&filename="+ orderType +" - " + str11 + "&to="+str8)) as HttpWebRequest;
             httpWebRequest.ContentType = "application/pdf";
             httpWebRequest.Method = "POST";
             httpWebRequest.ContentLength = (long)buffer.Length;

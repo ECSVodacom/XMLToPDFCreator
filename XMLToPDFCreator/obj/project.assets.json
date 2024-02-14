@@ -531,23 +531,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\balom002\\.nuget\\packages\\": {},
+    "C:\\Users\\barnardx\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\GitHubRepos\\XMLToPDFCreator\\XMLToPDFCreator\\XMLToPDFCreator.csproj",
+      "projectUniqueName": "C:\\Users\\barnardx\\Source\\Repos\\XMLToPDFCreator\\XMLToPDFCreator\\XMLToPDFCreator.csproj",
       "projectName": "XMLToPDFCreator",
-      "projectPath": "C:\\GitHubRepos\\XMLToPDFCreator\\XMLToPDFCreator\\XMLToPDFCreator.csproj",
-      "packagesPath": "C:\\Users\\balom002\\.nuget\\packages\\",
-      "outputPath": "C:\\GitHubRepos\\XMLToPDFCreator\\XMLToPDFCreator\\obj\\",
+      "projectPath": "C:\\Users\\barnardx\\Source\\Repos\\XMLToPDFCreator\\XMLToPDFCreator\\XMLToPDFCreator.csproj",
+      "packagesPath": "C:\\Users\\barnardx\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\barnardx\\Source\\Repos\\XMLToPDFCreator\\XMLToPDFCreator\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\balom002\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\barnardx\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -555,7 +555,8 @@
         "net6.0"
       ],
       "sources": {
-        "C:\\Program Files\\dotnet\\library-packs": {},
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\sdk\\7.0.306\\Sdks\\Microsoft.NET.Sdk.Web\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -602,24 +603,6 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "downloadDependencies": [
-          {
-            "name": "Microsoft.AspNetCore.App.Ref",
-            "version": "[6.0.25, 6.0.25]"
-          },
-          {
-            "name": "Microsoft.NETCore.App.Host.win-x64",
-            "version": "[6.0.25, 6.0.25]"
-          },
-          {
-            "name": "Microsoft.NETCore.App.Ref",
-            "version": "[6.0.25, 6.0.25]"
-          },
-          {
-            "name": "Microsoft.WindowsDesktop.App.Ref",
-            "version": "[6.0.25, 6.0.25]"
-          }
-        ],
         "frameworkReferences": {
           "Microsoft.AspNetCore.App": {
             "privateAssets": "none"
@@ -628,7 +611,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.306\\RuntimeIdentifierGraph.json"
       }
     }
   },

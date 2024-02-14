@@ -24,6 +24,10 @@ public class Order
 {
     [XmlElement(ElementName = "Header")]
     public Header Header { get; set; }
+
+    [XmlElement(ElementName = "SupplierDetails")]
+    public SupplierDetails SupplierDetails { get; set; }
+
 }
 
 [XmlRoot(ElementName = "Header")]
@@ -53,6 +57,9 @@ public class MessageHeader
 
     [XmlElement(ElementName = "SupplierDetails")]
     public SupplierDetails SupplierDetails { get; set; }
+
+    public string SupplierOrderPoint { get; set; } = null!;
+
 
     [XmlElement(ElementName = "CustomerLocation")]
     public CustomerLocation CustomerLocation { get; set; }

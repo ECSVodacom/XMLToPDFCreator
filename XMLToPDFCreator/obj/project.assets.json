@@ -537,11 +537,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\barnardx\\source\\repos\\XMLToPDFCreator\\XMLToPDFCreator\\XMLToPDFCreator.csproj",
+      "projectUniqueName": "C:\\Users\\barnardx\\Source\\Repos\\XMLToPDFCreator\\XMLToPDFCreator\\XMLToPDFCreator.csproj",
       "projectName": "XMLToPDFCreator",
-      "projectPath": "C:\\Users\\barnardx\\source\\repos\\XMLToPDFCreator\\XMLToPDFCreator\\XMLToPDFCreator.csproj",
+      "projectPath": "C:\\Users\\barnardx\\Source\\Repos\\XMLToPDFCreator\\XMLToPDFCreator\\XMLToPDFCreator.csproj",
       "packagesPath": "C:\\Users\\barnardx\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\barnardx\\source\\repos\\XMLToPDFCreator\\XMLToPDFCreator\\obj\\",
+      "outputPath": "C:\\Users\\barnardx\\Source\\Repos\\XMLToPDFCreator\\XMLToPDFCreator\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

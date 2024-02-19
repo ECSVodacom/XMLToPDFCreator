@@ -16,6 +16,7 @@ using System.Text;
 using XMLToPDFCreator.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Http;
+using System.Text.Json;
 
 namespace XMLToPDFCreator.Controllers
 {
@@ -290,26 +291,37 @@ namespace XMLToPDFCreator.Controllers
 
             byte[] buffer = Convert.FromBase64String(base64String);
             HttpWebRequest httpWebRequest = WebRequest.Create(new Uri(bizLinkEndPoint +"?from=" + str9 + "&to" + str8 + "&filename="+ orderType +" - " + str11 + "&to="+str8)) as HttpWebRequest;
-            HttpWebResponse httpWebResponse = (HttpWebResponse)httpWebRequest.GetResponse();
             httpWebRequest.ContentType = "application/pdf";
             httpWebRequest.Method = "POST";
             httpWebRequest.ContentLength = (long)buffer.Length;
             Stream requestStream = httpWebRequest.GetRequestStream();
-            
-
-
             requestStream.Write(buffer, 0, buffer.Length);
-           
-
             requestStream.Close();
 
-            using (StreamReader streamReader = new StreamReader(httpWebResponse.GetResponseStream()))
+            using (StreamReader streamReader = new StreamReader((httpWebRequest.GetResponse() as HttpWebResponse).GetResponseStream()))
             {
-                string responseBody = streamReader.ReadToEnd();
-                // Now responseBody holds the body of the HTTP response.
+                string response = streamReader.ReadToEnd();
+                Console.WriteLine(response);
 
-                return Ok(Response);
-                Console.WriteLine(responseBody);
+                // Construct the XML string with variables inserted inside tags
+                // string xmlString = $"<XMLtoPDF><Status>Succesfully created PDF</Status><Response>"+response+"</Response></XMLtoPDF>";
+
+
+                var jsonObject = new
+                {
+                    Status = "Succesful",
+                    Response = response,
+                    Created = DateTime.Now
+
+            };
+
+                // Serialize the JSON object to a string
+                string jsonResponse = JsonSerializer.Serialize(jsonObject);
+
+
+
+                return Ok(jsonResponse);
+               
             }
 
 

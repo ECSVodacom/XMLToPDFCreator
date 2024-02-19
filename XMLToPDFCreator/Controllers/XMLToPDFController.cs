@@ -15,6 +15,7 @@ using MigraDoc.Rendering;
 using System.Text;
 using XMLToPDFCreator.Models;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Http;
 
 namespace XMLToPDFCreator.Controllers
 {
@@ -284,19 +285,35 @@ namespace XMLToPDFCreator.Controllers
             }
             else {
                 orderType = "Order";
+                str8 = testModel.Order.Header.MessageHeader.SupplierDetails.SupplierOrderPoint;
             }
 
             byte[] buffer = Convert.FromBase64String(base64String);
             HttpWebRequest httpWebRequest = WebRequest.Create(new Uri(bizLinkEndPoint +"?from=" + str9 + "&to" + str8 + "&filename="+ orderType +" - " + str11 + "&to="+str8)) as HttpWebRequest;
+            HttpWebResponse httpWebResponse = (HttpWebResponse)httpWebRequest.GetResponse();
             httpWebRequest.ContentType = "application/pdf";
             httpWebRequest.Method = "POST";
             httpWebRequest.ContentLength = (long)buffer.Length;
             Stream requestStream = httpWebRequest.GetRequestStream();
-            requestStream.Write(buffer, 0, buffer.Length);
-            requestStream.Close();
-            using (StreamReader streamReader = new StreamReader((httpWebRequest.GetResponse() as HttpWebResponse).GetResponseStream()))
             
-                return Ok();
+
+
+            requestStream.Write(buffer, 0, buffer.Length);
+           
+
+            requestStream.Close();
+
+            using (StreamReader streamReader = new StreamReader(httpWebResponse.GetResponseStream()))
+            {
+                string responseBody = streamReader.ReadToEnd();
+                // Now responseBody holds the body of the HTTP response.
+
+                return Ok(Response);
+                Console.WriteLine(responseBody);
+            }
+
+
+
         }
 
         private static byte[] ConvertPdfPageToBase64(PdfDocumentRenderer renderer)
